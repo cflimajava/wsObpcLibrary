@@ -24,7 +24,7 @@ public class User implements Serializable {
 	private Boolean active;
 	
 	private String token;
-	
+		
 	public User() {
 	}
 	

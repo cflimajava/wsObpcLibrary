@@ -23,37 +23,45 @@ public class CustomerService {
 	
 	public Optional<Customer> createCustomer(Customer customer) throws Exception{
 		
-		Optional<Customer> customerFound = repo.findCustomerByUserId(customer.getUserId());
-		
-		if(customerFound.isEmpty()) {
-			return Optional.of(repo.save(customer));
+		if(customer.getUserId() != null) {
+			Optional<Customer> customerFound = repo.findCustomerByUserId(customer.getUserId());
+			
+			if(customerFound.isEmpty()) {
+				return Optional.of(repo.save(customer));
+			}else {
+				throw new CustomerUnprocessableException("User ID informed is already resgistered to customer ID: "+customerFound.get().getId());
+			}
 		}else {
-			throw new CustomerUnprocessableException("User ID informed is already resgistered to customer ID: "+customerFound.get().getId());
+			return Optional.ofNullable(Optional.of(repo.save(customer)).orElseThrow(()->new CustomerUnprocessableException()));
 		}
-		
 	}
 	
 	
-	public Optional<Customer> getCustomerByUserId(String userId) throws Exception {		
-		return repo.findCustomerByUserId(userId);		 
+	public Customer getCustomerByUserId(String userId) throws Exception {
+		Optional<Customer> optCustomer = repo.findCustomerByUserId(userId);
+		return optCustomer.get();		 
 	}
 	
-	public Optional<Customer> getCustomerById(String customerId) {	
-		return repo.findById(customerId);
+	public Customer getCustomerById(String customerId) {	
+		Optional<Customer> optCustomer = repo.findById(customerId);
+		return optCustomer.get();
 	}
 	
 	public Optional<Customer> updateCustomer(Customer newCustomerData) throws Exception{
 		
 		repo.findById(newCustomerData.getId())
-			.orElseThrow(() -> new ObjectNotFoundException("Customer not found"));
+			.orElseThrow(() -> new ObjectNotFoundException("Customer not found, ID: "+newCustomerData.getId()));
 		
 		return Optional.of(repo.save(newCustomerData));
 		
 	}
 	
-	public void deleteCustomer(Customer customer) throws Exception {
+	public void deleteCustomer(String customerId) throws Exception {
 		
-		List<Booking> bookingList = bookingService.getBookingsByUserId(customer.getUserId());
+		Optional<Customer> optCustomer = Optional.ofNullable(Optional.of(getCustomerById(customerId)))
+				.orElseThrow(()-> new ObjectNotFoundException("Customer not found, ID: "+customerId));
+		
+		List<Booking> bookingList = bookingService.getBookingsByUserId(customerId);
 		
 		for (Booking booking : bookingList) {
 			if(booking.getPickupDate() != null && booking.getDevolutionDate() == null){
@@ -61,7 +69,7 @@ public class CustomerService {
 			}
 		}
 		
-		repo.delete(customer);
+		repo.delete(optCustomer.get());
 		
 	}
 	

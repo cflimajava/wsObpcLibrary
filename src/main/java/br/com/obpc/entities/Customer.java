@@ -1,7 +1,6 @@
 package br.com.obpc.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,13 +15,17 @@ public class Customer implements Serializable{
 	
 	private String name;
 	
-	private Date dateBirth;
+	private String dateBirth;
 	
 	private String generalRegister;
 	
 	private String cpf;
 	
 	private String street;
+	
+	private Integer number;
+	
+	private String complement;
 	
 	private String neighborhood;
 	
@@ -43,17 +46,17 @@ public class Customer implements Serializable{
 	public Customer() {
 	}
 
-
-	public Customer(String id, String name, Date dateBirth, String generalRegister, String cpf, String street,
-			String neighborhood, String city, String state, String zipCode, String cellPhoneNumber,
-			String homePhoneNumber, String extraPhoneNumber, String userId) {
-		super();
+	public Customer(String id, String name, String dateBirth, String generalRegister, String cpf, String street,
+			Integer number, String complement, String neighborhood, String city, String state, String zipCode,
+			String cellPhoneNumber, String homePhoneNumber, String extraPhoneNumber, String userId) {
 		this.id = id;
 		this.name = name;
 		this.dateBirth = dateBirth;
 		this.generalRegister = generalRegister;
 		this.cpf = cpf;
 		this.street = street;
+		this.number = number;
+		this.complement = complement;
 		this.neighborhood = neighborhood;
 		this.city = city;
 		this.state = state;
@@ -63,6 +66,9 @@ public class Customer implements Serializable{
 		this.extraPhoneNumber = extraPhoneNumber;
 		this.userId = userId;
 	}
+
+
+
 
 
 
@@ -82,11 +88,11 @@ public class Customer implements Serializable{
 		this.name = name;
 	}
 
-	public Date getDateBirth() {
+	public String getDateBirth() {
 		return dateBirth;
 	}
 
-	public void setDateBirth(Date dateBirth) {
+	public void setDateBirth(String dateBirth) {
 		this.dateBirth = dateBirth;
 	}
 
@@ -172,6 +178,25 @@ public class Customer implements Serializable{
 
 	public String getUserId() {
 		return userId;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+
+	public String getComplement() {
+		return complement;
+	}
+
+
+	public void setComplement(String complement) {
+		this.complement = complement;
 	}
 
 

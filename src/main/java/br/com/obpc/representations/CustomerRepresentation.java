@@ -2,8 +2,6 @@ package br.com.obpc.representations;
 
 import static br.com.obpc.utils.ObpcConstants.BASE_URI_CUSTOMER_CRTL;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import br.com.obpc.entities.Customer;
@@ -14,13 +12,17 @@ public class CustomerRepresentation extends Representation{
 	
 	private String name;
 	
-	private Date dateBirth;
+	private String dateBirth;
 	
 	private String generalRegister;
 	
 	private String cpf;
 	
 	private String street;
+	
+	private Integer number;
+	
+	private String complement;
 	
 	private String neighborhood;
 	
@@ -48,6 +50,8 @@ public class CustomerRepresentation extends Representation{
 		this.generalRegister = entity.getGeneralRegister();
 		this.cpf = entity.getCpf();
 		this.street = entity.getStreet();
+		this.number = entity.getNumber();
+		this.complement = entity.getComplement();
 		this.neighborhood = entity.getNeighborhood();
 		this.city = entity.getCity();
 		this.state = entity.getState();
@@ -58,15 +62,17 @@ public class CustomerRepresentation extends Representation{
 		this.userId = entity.getUserId();
 	}
 
-	public CustomerRepresentation(String id, String name, Date dateBirth, String generalRegister, String cpf,
-			String street, String neighborhood, String city, String state, String zipCode, String cellPhoneNumber,
-			String homePhoneNumber, String extraPhoneNumber, String userId) {
+	public CustomerRepresentation(String id, String name, String dateBirth, String generalRegister, String cpf,
+			String street, Integer number, String complement, String neighborhood, String city, String state,
+			String zipCode, String cellPhoneNumber, String homePhoneNumber, String extraPhoneNumber, String userId) {
 		this.id = id;
 		this.name = name;
 		this.dateBirth = dateBirth;
 		this.generalRegister = generalRegister;
 		this.cpf = cpf;
 		this.street = street;
+		this.number = number;
+		this.complement = complement;
 		this.neighborhood = neighborhood;
 		this.city = city;
 		this.state = state;
@@ -93,11 +99,11 @@ public class CustomerRepresentation extends Representation{
 		this.name = name;
 	}
 
-	public Date getDateBirth() {
+	public String getDateBirth() {
 		return dateBirth;
 	}
 
-	public void setDateBirth(Date dateBirth) {
+	public void setDateBirth(String dateBirth) {
 		this.dateBirth = dateBirth;
 	}
 
@@ -187,6 +193,22 @@ public class CustomerRepresentation extends Representation{
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+	public String getComplement() {
+		return complement;
+	}
+
+	public void setComplement(String complement) {
+		this.complement = complement;
 	}
 	
 }
