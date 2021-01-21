@@ -63,7 +63,7 @@ public class UserControllerTest {
 	@Test
 	public void login_sucess_return_200() throws Exception {
 		
-		when(service.getLoggin(jwtHelper, USERNAME_FAKE, PASSWORD_FAKE)).thenReturn(fixture.getMockUserFound());	
+		when(service.getLoggin(USERNAME_FAKE, PASSWORD_FAKE)).thenReturn(fixture.getMockUserFound());	
 		when(request.getRequestURL()).thenReturn(new StringBuffer("http://baseURLTest/obpc/user"));
 		when(request.getRequestURI()).thenReturn("/obpc/user");
 		
@@ -83,7 +83,7 @@ public class UserControllerTest {
 	@Test
 	public void login_fail_wrong_username_or_password_return_403() throws Exception {
 		
-		when(service.getLoggin(jwtHelper,  USERNAME_FAKE, PASSWORD_FAKE)).thenThrow(new ForbiddenException());
+		when(service.getLoggin(USERNAME_FAKE, PASSWORD_FAKE)).thenThrow(new ForbiddenException());
 		
 		ForbiddenException exception = assertThrows(ForbiddenException.class, 
 				()-> controller.login(USERNAME_FAKE, PASSWORD_FAKE, request));

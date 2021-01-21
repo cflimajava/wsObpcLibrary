@@ -54,7 +54,7 @@ public class UserController {
 			@ApiParam(value = "password", required = true, type = "String") @RequestHeader(name = "password") String password, 
 			HttpServletRequest request) throws Exception {		
 		
-		User userAllowed = userService.getLoggin(jwtHelper,username, password);
+		User userAllowed = userService.getLoggin(username, password);
 		
 		UserRepresentations userAllowedRepresentaion = new UserRepresentations(userAllowed, request);
 		
@@ -155,6 +155,26 @@ public class UserController {
 		UserRepresentations userFoundRepresentation = new UserRepresentations(userFound, request);		
 		
 		return new ResponseEntity<UserRepresentations>(userFoundRepresentation, HttpStatus.OK);
+
+	}
+	
+	
+	@ApiOperation(value = "Active user by ID", notes = "Resource used activate user by id using link sent by email")
+	@ApiResponses({ 
+			@ApiResponse(code = 200, message = "", response = UserRepresentations.class),
+			@ApiResponse(code = 404, message = "User not found", response = ObjectNotFoundException.class) 
+	})
+	@GetMapping(value = "/activation/{id}/{token}")
+	public ResponseEntity<Void> emailConfirmation(
+			@ApiParam(value = "id", required = true, type = "String") @PathVariable(value = "id") String id,
+			@ApiParam(value = "token", required = true, type = "String") @PathVariable(value = "token") String token,
+			HttpServletRequest request) throws Exception {
+
+		jwtHelper.validateToken(token, id);		
+		
+		userService.activateUserById(id);		
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
 	}
 

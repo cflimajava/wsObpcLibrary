@@ -42,6 +42,14 @@ public class User implements Serializable {
 		this.role = role;
 		this.active = active;
 	}
+	
+	public User(String username, String password, String role, Boolean active, String token) {
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.active = active;
+		this.token = token;
+	}
 
 	public User(String id, String username, String password, String role, Boolean active) {
 		this.id = id;

@@ -24,7 +24,13 @@ public class UserService {
 	@Autowired
 	private UserRepository repo;
 	
-	public User getLoggin(JwtTokenHelper jwtHelper, String username, String password) throws Exception {
+	@Autowired
+	private MailService emailService;
+	
+	@Autowired
+	private JwtTokenHelper jwtHelper;
+	
+	public User getLoggin(String username, String password) throws Exception {
 		
 		checkEmailFormat(username);
 		
@@ -32,11 +38,16 @@ public class UserService {
 				.ofNullable(repo.findByUsernameAndPassword(username, GenerateHashPasswordUtil.encrypt(password))
 						.orElseThrow(()->new ForbiddenException()));
 		
-		User userAuthorized = user.get();		
-		userAuthorized.setToken(jwtHelper.getAccessToken(userAuthorized));		
-		updateUser(userAuthorized);
+		User userAuthorized = user.get();	
 		
-		return userAuthorized;
+		if(userAuthorized.getActive()) {
+			userAuthorized.setToken(jwtHelper.getAccessToken(userAuthorized));		
+			updateUser(userAuthorized);
+			return userAuthorized;
+		}
+		
+		throw new ForbiddenException("User is not active");
+		
 	}
 	
 	public void doLogout(String userId) throws Exception {
@@ -76,7 +87,13 @@ public class UserService {
 			throw new PasswordNotPresentException();
 		
 		if (user.isEmpty()) {
-			return repo.save(new User(username, GenerateHashPasswordUtil.encrypt(password), "ROLE_BASIC", false));
+			User userSaved = repo.save(new User(username, GenerateHashPasswordUtil.encrypt(password), "ROLE_BASIC", false));
+			userSaved.setToken(jwtHelper.getAccessToken(userSaved));
+			userSaved = updateUser(userSaved);
+			
+			emailService.sendTo(userSaved);
+			
+			return userSaved ;
 		}
 
 		throw new UsernameExistingException();
@@ -102,6 +119,14 @@ public class UserService {
 			return user.get();
 		
 		throw new ObjectNotFoundException("User not found");
+	}
+	
+	
+	public void activateUserById(String id) throws Exception{
+		User user = getUserById(id);		
+		user.setActive(true);
+		user.setToken(null);
+		repo.save(user);
 	}
 	
 	
