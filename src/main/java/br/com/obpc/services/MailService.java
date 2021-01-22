@@ -11,12 +11,17 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import br.com.obpc.entities.User;
 
 @Service
 public class MailService {
+	
+	@Autowired
+    private Environment env;
 	
 	public void sendTo(User user) {
 		Properties prop = new Properties();
@@ -26,13 +31,9 @@ public class MailService {
 		prop.put("mail.smtp.port", "587");
 		prop.put("mail.smtp.auth", "true");
 		prop.put("mail.smtp.starttls.enable", "true");
-
-//		String sender = MenageProperties.getString("email.sender");
-//		String emailPassword = MenageProperties.getString("email.password");
 		
-		//TODO pegar valores do arquivo properties externo
-		String sender = "cristianolimaudi@gmail.com";
-		String emailPassword = "Cris@2006";
+		String sender = env.getProperty("sender.email");
+		String emailPassword = env.getProperty("sender.pass");
 
 		Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -58,7 +59,7 @@ public class MailService {
 			strBuilder.append("Para ativar seu acesso clique no link abaixo.\n");
 			
 			//TODO pegar valores do arquivo properties externo
-			String linkActivation = "http://localhost:8587/obpc/user/activation/"+user.getId()+"/"+user.getToken();
+			String linkActivation = env.getProperty("base.activation.uri")+user.getId()+"/"+user.getToken();
 			
 			strBuilder.append(linkActivation);
 			
