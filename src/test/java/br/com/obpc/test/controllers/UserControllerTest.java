@@ -182,7 +182,7 @@ public class UserControllerTest {
 	@Test
 	public void create_user_success_return_201() throws Exception {
 		
-		when(service.createUser(any(), any())).thenReturn(fixture.getMockUserFound());
+		when(service.createUser(any())).thenReturn(fixture.getMockUserFound());
 		when(request.getRequestURL()).thenReturn(new StringBuffer("http://baseURLTest/obpc/user"));
 		when(request.getRequestURI()).thenReturn("/obpc/user");
 		
@@ -200,7 +200,7 @@ public class UserControllerTest {
 	@Test
 	public void create_user_fail_password_is_not_present_return_422() throws Exception {
 		
-		when(service.createUser(any(), any())).thenThrow(new PasswordNotPresentException());
+		when(service.createUser(any())).thenThrow(new PasswordNotPresentException());
 		
 		PasswordNotPresentException exception = assertThrows(PasswordNotPresentException.class, 
 				()-> controller.createUser(fixture.getMockNewUserDTO(), request));
@@ -213,7 +213,7 @@ public class UserControllerTest {
 	@Test
 	public void create_user_fail_invalid_username_format_412() throws Exception {
 		
-		when(service.createUser(any(), any())).thenThrow(new InvalidUsernameException());
+		when(service.createUser(any())).thenThrow(new InvalidUsernameException());
 		
 		InvalidUsernameException exception = assertThrows(InvalidUsernameException.class, 
 				()-> controller.createUser(fixture.getMockNewUserDTO(), request));
@@ -225,7 +225,7 @@ public class UserControllerTest {
 	
 	@Test
 	public void create_user_fail_username_alreday_exist_return_422() throws Exception {
-		when(service.createUser(any(), any())).thenThrow(new UsernameExistingException());
+		when(service.createUser(any())).thenThrow(new UsernameExistingException());
 		
 		UsernameExistingException exception = assertThrows(UsernameExistingException.class, 
 				()-> controller.createUser(fixture.getMockNewUserDTO(), request));

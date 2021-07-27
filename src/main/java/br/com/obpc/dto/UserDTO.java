@@ -2,6 +2,8 @@ package br.com.obpc.dto;
 
 import java.io.Serializable;
 
+import br.com.obpc.entities.User;
+
 public class UserDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +28,12 @@ public class UserDTO implements Serializable{
 		this.password = password;
 		this.role = role;
 		this.active = active;
+	}
+	
+	public UserDTO(User user) {
+		this.id = user.getId();
+		this.active = user.getActive();
+		this.username = user.getUsername();
 	}
 
 	public String getId() {

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.obpc.dto.BookDTO;
 import br.com.obpc.entities.Book;
 import br.com.obpc.representations.BookRepresentation;
+import br.com.obpc.representations.Representation;
 import br.com.obpc.services.BookService;
 import br.com.obpc.token.JwtTokenHelper;
 import io.swagger.annotations.ApiOperation;
@@ -120,7 +121,7 @@ public class BookController {
 		
 		jwtHelper.validateToken(token, requesterId);		
 		List<Book> listBooks = bookService.getBookByTitle(title);
-		List<BookRepresentation> representationList = BookRepresentation.getListRepresentation(listBooks, request);
+		List<BookRepresentation> representationList =  Representation.getListRepresentation(listBooks, request, BookRepresentation.class);
 		
 		return new ResponseEntity<List<BookRepresentation>>(representationList, HttpStatus.OK);
 		
@@ -135,7 +136,7 @@ public class BookController {
 		
 		jwtHelper.validateToken(token, requesterId);		
 		List<Book> listBooks = bookService.getAllBooks();
-		List<BookRepresentation> representationList = BookRepresentation.getListRepresentation(listBooks, request);
+		List<BookRepresentation> representationList =  Representation.getListRepresentation(listBooks, request, BookRepresentation.class);
 		
 		return new ResponseEntity<List<BookRepresentation>>(representationList, HttpStatus.OK);
 		
@@ -152,11 +153,10 @@ public class BookController {
 		
 		jwtHelper.validateToken(token, requesterId);		
 		List<Book> listBooks = bookService.getBookByFilter(dto);
-		List<BookRepresentation> representationList = BookRepresentation.getListRepresentation(listBooks, request);
+		List<BookRepresentation> representationList = BookRepresentation.getListRepresentation(listBooks, request, BookRepresentation.class);
 		
 		return new ResponseEntity<List<BookRepresentation>>(representationList, HttpStatus.OK);
 		
-	}
-	
+	}	 
 
 }

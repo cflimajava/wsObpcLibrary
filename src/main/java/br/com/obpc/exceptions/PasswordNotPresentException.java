@@ -3,7 +3,7 @@ package br.com.obpc.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+@ResponseStatus(code = HttpStatus.PRECONDITION_REQUIRED)
 public class PasswordNotPresentException extends Exception {
 
 	private static final long serialVersionUID = 1L;

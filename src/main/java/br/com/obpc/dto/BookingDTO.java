@@ -1,5 +1,7 @@
 package br.com.obpc.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +11,8 @@ public class BookingDTO implements Serializable{
 	private static final long serialVersionUID = -8004415402626742057L;
 
 	private String id;
-	
+
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:sss.sss")
 	private Date dateCreation;
 	
 	private Date pickupDate;
@@ -17,6 +20,8 @@ public class BookingDTO implements Serializable{
 	private Date previewDevolutionDate;
 	
 	private Date devolutionDate;
+
+	private String status;
 	
 	private String userId;
 	
@@ -26,23 +31,25 @@ public class BookingDTO implements Serializable{
 	public BookingDTO() {
 	}
 	
-	public BookingDTO(Date dateCreation, Date pickupDate, Date previewDevolutionDate, Date devolutionDate, String userId,
+	public BookingDTO(Date dateCreation, Date pickupDate, Date previewDevolutionDate, Date devolutionDate, String status, String userId,
 			List<String> booksId) {
 		this.dateCreation = dateCreation;
 		this.pickupDate = pickupDate;
 		this.previewDevolutionDate = previewDevolutionDate;
 		this.devolutionDate = devolutionDate;
+		this.status = status;
 		this.userId = userId;
 		this.booksId = booksId;
 	}
 	
-	public BookingDTO(String id, Date dateCreation, Date pickupDate, Date previewDevolutionDate, Date devolutionDate,
+	public BookingDTO(String id, Date dateCreation, Date pickupDate, Date previewDevolutionDate, Date devolutionDate, String status,
 			String userId, List<String> booksId) {
 		this.id = id;
 		this.dateCreation = dateCreation;
 		this.pickupDate = pickupDate;
 		this.previewDevolutionDate = previewDevolutionDate;
 		this.devolutionDate = devolutionDate;
+		this.status = status;
 		this.userId = userId;
 		this.booksId = booksId;
 	}
@@ -85,6 +92,14 @@ public class BookingDTO implements Serializable{
 
 	public void setDevolutionDate(Date devolutionDate) {
 		this.devolutionDate = devolutionDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getUserId() {

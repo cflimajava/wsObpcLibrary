@@ -24,6 +24,7 @@ import br.com.obpc.entities.Booking;
 import br.com.obpc.exceptions.BookingUnprocessableException;
 import br.com.obpc.exceptions.ObjectNotFoundException;
 import br.com.obpc.representations.BookingRepresentation;
+import br.com.obpc.representations.Representation;
 import br.com.obpc.services.BookingService;
 import br.com.obpc.token.JwtTokenHelper;
 import io.swagger.annotations.ApiOperation;
@@ -113,7 +114,7 @@ public class BookingController {
 		
 		List<Booking> listBooking = service.getBookingsByUserId(userId);
 		
-		List<BookingRepresentation> representation = BookingRepresentation.getListRepresentation(listBooking, request);
+		List<BookingRepresentation> representation = Representation.getListRepresentation(listBooking, request, BookingRepresentation.class);
 		
 		return new ResponseEntity<List<BookingRepresentation>>(representation, HttpStatus.OK);
 	}

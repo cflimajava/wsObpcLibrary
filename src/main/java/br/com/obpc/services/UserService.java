@@ -5,15 +5,12 @@ import java.util.Optional;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import br.com.obpc.dto.UserDTO;
+import br.com.obpc.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.obpc.entities.User;
-import br.com.obpc.exceptions.ForbiddenException;
-import br.com.obpc.exceptions.InvalidUsernameException;
-import br.com.obpc.exceptions.ObjectNotFoundException;
-import br.com.obpc.exceptions.PasswordNotPresentException;
-import br.com.obpc.exceptions.UsernameExistingException;
 import br.com.obpc.repository.UserRepository;
 import br.com.obpc.token.JwtTokenHelper;
 import br.com.obpc.utils.GenerateHashPasswordUtil;
@@ -46,7 +43,7 @@ public class UserService {
 			return userAuthorized;
 		}
 		
-		throw new ForbiddenException("User is not active");
+		throw new InactiveUserException();
 		
 	}
 	
@@ -80,19 +77,22 @@ public class UserService {
 
 	}
 
-	public User createUser(String username, String password) throws Exception {
-		Optional<User> user = repo.findByUsername(username);
+	public User createUser(UserDTO userDTO) throws Exception {
+		Optional<User> user = repo.findByUsername(userDTO.getUsername());
 		
-		if(password == null || password.isEmpty()) 
+		if(userDTO.getPassword() == null || userDTO.getPassword().isEmpty())
 			throw new PasswordNotPresentException();
 		
 		if (user.isEmpty()) {
-			User userSaved = repo.save(new User(username, GenerateHashPasswordUtil.encrypt(password), "ROLE_BASIC", false));
+			User userSaved = repo.save(new User(userDTO.getUsername(), GenerateHashPasswordUtil.encrypt(userDTO.getPassword()), userDTO.getRole(), userDTO.getActive()));
 			userSaved.setToken(jwtHelper.getAccessToken(userSaved));
 			userSaved = updateUser(userSaved);
-			
-			emailService.sendTo(userSaved);
-			
+
+			try {
+				emailService.sendTo(userSaved);
+			}catch (Exception e){
+				System.out.println("Erro ao enviar email, //TODO : criar exception para esse problema");
+			}
 			return userSaved ;
 		}
 

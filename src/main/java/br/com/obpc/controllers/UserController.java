@@ -122,14 +122,14 @@ public class UserController {
 	@ApiResponses({ 
 			@ApiResponse(code = 201, message = "", response = User.class),
 			@ApiResponse(code = 423, message = "Password is not present", response = PasswordNotPresentException.class),
-			@ApiResponse(code = 423, message = "Username already exist", response = UsernameExistingException.class) 
+			@ApiResponse(code = 422, message = "Username already exist", response = UsernameExistingException.class)
 	})
 	@PostMapping(value = "/create")
 	public ResponseEntity<UserRepresentations> createUser(
 			@ApiParam(value = "Just username and password are required. Username need be a valid email", required = true, type = "UserDTO") @RequestBody UserDTO userDTO,	
 			HttpServletRequest request) throws Exception {
 		
-		User userCreated = userService.createUser(userDTO.getUsername(), userDTO.getPassword());
+		User userCreated = userService.createUser(userDTO);
 		
 		UserRepresentations userRepresentation = new UserRepresentations(userCreated, request);
 		
@@ -158,24 +158,5 @@ public class UserController {
 
 	}
 	
-	
-	@ApiOperation(value = "Active user by ID", notes = "Resource used activate user by id using link sent by email")
-	@ApiResponses({ 
-			@ApiResponse(code = 200, message = "", response = UserRepresentations.class),
-			@ApiResponse(code = 404, message = "User not found", response = ObjectNotFoundException.class) 
-	})
-	@GetMapping(value = "/activation/{id}/{token}")
-	public ResponseEntity<Void> emailConfirmation(
-			@ApiParam(value = "id", required = true, type = "String") @PathVariable(value = "id") String id,
-			@ApiParam(value = "token", required = true, type = "String") @PathVariable(value = "token") String token,
-			HttpServletRequest request) throws Exception {
-
-		jwtHelper.validateToken(token, id);		
-		
-		userService.activateUserById(id);		
-		
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-
-	}
 
 }

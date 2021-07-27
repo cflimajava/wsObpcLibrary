@@ -2,9 +2,6 @@ package br.com.obpc.representations;
 
 import static br.com.obpc.utils.ObpcConstants.BASE_URI_BOOK_CRTL;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import br.com.obpc.entities.Book;
@@ -41,7 +38,7 @@ public class BookRepresentation extends Representation{
 		this.publisher = entity.getPublisher();
 		this.availables = entity.getAvailables();
 	}
-
+	
 	public BookRepresentation(String id, String title, String author, String summary, Integer year, String image,
 			String publisher, Integer availables) {
 		this.id = id;
@@ -53,19 +50,7 @@ public class BookRepresentation extends Representation{
 		this.publisher = publisher;
 		this.availables = availables;
 	}
-
 	
-	public static List<BookRepresentation> getListRepresentation(List<Book> books, HttpServletRequest request){
-		List<BookRepresentation> list = new ArrayList<>();
-		
-		books.forEach(book ->{
-			list.add(new BookRepresentation(book, request));
-		});
-		
-		return list;
-	}
-
-
 	public String getId() {
 		return id;
 	}

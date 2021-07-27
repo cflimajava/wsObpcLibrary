@@ -18,7 +18,8 @@ public class Booking implements Serializable{
 
 	@Id
 	private String id;
-	
+
+	@NonNull
 	private Date dateCreation;
 	
 	private Date pickupDate;
@@ -26,6 +27,9 @@ public class Booking implements Serializable{
 	private Date previewDevolutionDate;
 	
 	private Date devolutionDate;
+
+	@NonNull
+	private String status;
 	
 	@NonNull
 	private String userId;
@@ -36,13 +40,14 @@ public class Booking implements Serializable{
 	public Booking() {
 	}
 
-	public Booking(String id, Date dateCreation, Date pickupDate, Date previewDevolutionDate, Date devolutionDate,
+	public Booking(String id, Date dateCreation, Date pickupDate, Date previewDevolutionDate, Date devolutionDate, String status,
 			String userId, List<Book> books) {
 		this.id = id;
 		this.dateCreation = dateCreation;
 		this.pickupDate = pickupDate;
 		this.previewDevolutionDate = previewDevolutionDate;
 		this.devolutionDate = devolutionDate;
+		this.status = status;
 		this.userId = userId;
 		this.books = books;
 	}
@@ -53,6 +58,7 @@ public class Booking implements Serializable{
 		this.pickupDate = dto.getPickupDate();
 		this.previewDevolutionDate = dto.getPreviewDevolutionDate();
 		this.devolutionDate = dto.getDevolutionDate();
+		this.status = dto.getStatus();
 		this.userId = dto.getUserId();
 		this.books = books;
 	}
@@ -105,6 +111,15 @@ public class Booking implements Serializable{
 
 	public void setDevolutionDate(Date devolutionDate) {
 		this.devolutionDate = devolutionDate;
+	}
+
+	@NonNull
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(@NonNull String status) {
+		this.status = status;
 	}
 
 	public String getUserId() {

@@ -2,7 +2,6 @@ package br.com.obpc.representations;
 
 import static br.com.obpc.utils.ObpcConstants.BASE_URI_BOOKING_CRTL;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +21,8 @@ public class BookingRepresentation extends Representation {
 	private Date previewDevolutionDate;
 	
 	private Date devolutionDate;
+
+	private String status;
 	
 	private String userId;
 	
@@ -37,33 +38,23 @@ public class BookingRepresentation extends Representation {
 		this.pickupDate = entity.getPickupDate();
 		this.previewDevolutionDate = entity.getPreviewDevolutionDate();
 		this.devolutionDate = entity.getDevolutionDate();
+		this.status = entity.getStatus();
 		this.userId = entity.getUserId();
 		this.books = entity.getBooks();
 	}
 
 	public BookingRepresentation(String id, Date dateCreation, Date pickupDate, Date previewDevolutionDate,
-			Date devolutionDate, String userId, List<Book> books) {
+			Date devolutionDate, String status, String userId, List<Book> books) {
 		this.id = id;
 		this.dateCreation = dateCreation;
 		this.pickupDate = pickupDate;
 		this.previewDevolutionDate = previewDevolutionDate;
 		this.devolutionDate = devolutionDate;
+		this.status = status;
 		this.userId = userId;
 		this.books = books;
 	}
 	
-	public static List<BookingRepresentation> getListRepresentation(List<Booking> list, HttpServletRequest request) {
-		
-		List<BookingRepresentation> representationList = new ArrayList<BookingRepresentation>();
-		
-		list.forEach(item -> {
-			representationList.add(new BookingRepresentation(item, request));
-		});
-		
-		return representationList;
-	}
-
-
 
 	public String getId() {
 		return id;
@@ -123,7 +114,14 @@ public class BookingRepresentation extends Representation {
 		this.devolutionDate = devolutionDate;
 	}
 
-	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getUserId() {
 		return userId;
 	}

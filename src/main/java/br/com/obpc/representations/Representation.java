@@ -1,5 +1,10 @@
 package br.com.obpc.representations;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class Representation {
@@ -23,5 +28,24 @@ public class Representation {
 	private String createLink(HttpServletRequest request, String uriBase) {
 		return request.getRequestURL().toString().split(request.getRequestURI())[0]+uriBase;
 	}
+	
+	public static <T> List<T> getListRepresentation(List<?> objectList, HttpServletRequest request, Class<T> typeTarget) throws NoSuchMethodException, SecurityException{
+		List<T> representationList = new ArrayList<>();		
+		
+		if(!objectList.isEmpty()) {
+			Constructor<T> constructor = typeTarget.getConstructor(objectList.get(0).getClass(), HttpServletRequest.class);
+			objectList.forEach(item -> {			
+					try {
+						representationList.add(constructor.newInstance(item, request));
+					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+							| InvocationTargetException e) {
+						e.printStackTrace();
+					}		
+			});
+		}
+		
+		return representationList;
+	}
+
 
 }
