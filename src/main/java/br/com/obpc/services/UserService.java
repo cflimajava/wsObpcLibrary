@@ -1,16 +1,22 @@
 package br.com.obpc.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-import br.com.obpc.dto.UserDTO;
-import br.com.obpc.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.obpc.dto.UserDTO;
 import br.com.obpc.entities.User;
+import br.com.obpc.exceptions.ForbiddenException;
+import br.com.obpc.exceptions.InactiveUserException;
+import br.com.obpc.exceptions.InvalidUsernameException;
+import br.com.obpc.exceptions.ObjectNotFoundException;
+import br.com.obpc.exceptions.PasswordNotPresentException;
+import br.com.obpc.exceptions.UsernameExistingException;
 import br.com.obpc.repository.UserRepository;
 import br.com.obpc.token.JwtTokenHelper;
 import br.com.obpc.utils.GenerateHashPasswordUtil;
@@ -26,6 +32,11 @@ public class UserService {
 	
 	@Autowired
 	private JwtTokenHelper jwtHelper;
+	
+	
+	public Optional<List<User>> getAllUsers(){
+		return repo.findByActiveTrue();
+	}
 	
 	public User getLoggin(String username, String password) throws Exception {
 		
@@ -113,12 +124,11 @@ public class UserService {
 	
 	public User getUserById(String id) throws Exception {
 
-		Optional<User> user = repo.findById(id); 
-		
-		if(user.isPresent())
-			return user.get();
-		
-		throw new ObjectNotFoundException("User not found");
+		Optional<User> user = Optional.ofNullable(repo.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("User not found"))); 
+				
+		return user.get();		
+//		throw new ObjectNotFoundException("User not found");
 	}
 	
 	

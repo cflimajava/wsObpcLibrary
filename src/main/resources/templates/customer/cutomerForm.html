@@ -1,0 +1,118 @@
+<div class="col-md-12 mgBottom10">
+    <button type="button" class="btn btn-primary pull-right" ng-click="saveCustomer(customer)" ng-hide="customer.id">Salvar</button>
+    <button type="button" class="btn btn-primary pull-right" ng-click="updateCustomer(customer)" ng-show="customer.id">Atualizar</button>
+    <a href="users" class="btn btn-primary pull-left" title="Voltar">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+    </a>
+</div>
+
+<!-- ng-disabled="formCustomer.$invalid" -->
+
+
+<form name="formCustomer">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Dados Pessoais</strong></h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <span class="required">*</span><label for="customerName">Nome completo:</label>
+                        <input type="text" class="form-control" id="customerName" ng-model="customer.name" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <span class="required">*</span><label for="cpf">CPF:</label>
+                        <input type="text" class="form-control" id="cpf" ng-model="customer.cpf" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="rg">RG:</label>
+                        <input type="text" class="form-control" id="rg" ng-model="customer.generalRegister">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <span class="required">*</span><label for="nascimento">Data Nascimento:</label>
+                        <input type="text" class="form-control" id="nascimento" ng-model="customer.dateBirth" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Telefones</strong></h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <span class="required">*</span><label for="celular">Celular:</label>
+                        <input type="text" class="form-control" id="celular" ng-model="customer.cellPhoneNumber" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="residencial">Residencial:</label>
+                        <input type="text" class="form-control" id="residencial" ng-model="customer.homePhoneNumber" >
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="contato">Contato:</label>
+                        <input type="text" class="form-control" id="contato" ng-model="customer.extraPhoneNumber">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Endereço</strong></h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <span class="required">*</span><label for="logradouro">Logradouro:</label>
+                        <input type="text" class="form-control" id="logradouro" ng-model="customer.street" required>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <span class="required">*</span><label for="numero">Nº:</label>
+                        <input type="number" class="form-control" id="numero" ng-model="customer.number" required>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="complemento">Complemento:</label>
+                        <input type="text" class="form-control" id="complemento" ng-model="customer.complement">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <span class="required">*</span><label for="bairro">Bairro:</label>
+                        <input type="text" class="form-control" id="bairro" ng-model="customer.neighborhood" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="cep">CEP:</label>
+                        <input type="text" class="form-control" id="cep" ng-model="customer.zipCode">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <span class="required">*</span><label for="cidade">Cidade:</label>
+                        <input type="text" class="form-control" id="cidade" ng-model="customer.city" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <span class="required">*</span><label for="estado">Estado:</label>
+                        <input type="text" class="form-control" id="estado" ng-model="customer.state" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

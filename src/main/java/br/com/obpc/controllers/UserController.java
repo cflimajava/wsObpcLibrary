@@ -1,5 +1,9 @@
 package br.com.obpc.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +68,7 @@ public class UserController {
 	@ApiOperation(value = "Do logout deleting access token", notes = "Do logout deleting access token")
 	@ApiResponses({ 
 			@ApiResponse(code = 204, message = "", response = ResponseEntity.class),
-			@ApiResponse(code = 404, message = "User not found", response = ObjectNotFoundException.class) 
+			@ApiResponse(code = 422, message = "User not found", response = ObjectNotFoundException.class) 
 	})
 	@GetMapping(value = "/logout")
 	public ResponseEntity<Void> logout(
@@ -80,7 +84,7 @@ public class UserController {
 	@ApiOperation(value = "Update password on database", notes = "Resource used to update password on database")
 	@ApiResponses({ 
 			@ApiResponse(code = 204, message = "", response = ResponseEntity.class),
-			@ApiResponse(code = 404, message = "User not found", response = ObjectNotFoundException.class) 
+			@ApiResponse(code = 422, message = "User not found", response = ObjectNotFoundException.class) 
 	})
 	@PutMapping(value = "/updatePassword")
 	public ResponseEntity<Void> updatePassword(
@@ -139,7 +143,7 @@ public class UserController {
 	@ApiOperation(value = "Search user by id", notes = "Resource used to find user by id")
 	@ApiResponses({ 
 			@ApiResponse(code = 200, message = "", response = UserRepresentations.class),
-			@ApiResponse(code = 404, message = "User not found", response = ObjectNotFoundException.class) 
+			@ApiResponse(code = 422, message = "User not found", response = ObjectNotFoundException.class) 
 	})
 	@GetMapping(value = "/{userId}")
 	public ResponseEntity<UserRepresentations> getUserById(
@@ -158,5 +162,23 @@ public class UserController {
 
 	}
 	
+	@GetMapping(value = "/getAll")
+	public ResponseEntity<List<UserRepresentations>> getAllActiveUsers(
+			@ApiParam(value = "RequesterId", required = true, type = "String") @RequestHeader(name = "HEADERS_REQUESTER") String requesterId,
+			@ApiParam(value = "Token", required = true, type = "String") @RequestHeader(name = "HEADERS_TOKEN") String token, 
+			HttpServletRequest request) throws Exception{
+		
+		jwtHelper.validateToken(token, requesterId);
+		
+		Optional<List<User>> allUsers = userService.getAllUsers();
+		
+		List<UserRepresentations> usersRepresentation = new ArrayList<>();
+		allUsers.get().stream().forEach((user) ->{
+			usersRepresentation.add(new UserRepresentations(user, request));
+		});
+		
+		return new ResponseEntity<List<UserRepresentations>>(usersRepresentation, HttpStatus.OK);
+		
+	}
 
 }

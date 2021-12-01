@@ -37,9 +37,8 @@ public class CustomerService {
 	}
 	
 	
-	public Customer getCustomerByUserId(String userId) throws Exception {
-		Optional<Customer> optCustomer = repo.findCustomerByUserId(userId);
-		return optCustomer.get();		 
+	public Optional<Customer>getCustomerByUserId(String userId) throws Exception {
+		return repo.findCustomerByUserId(userId);		 
 	}
 	
 	public Customer getCustomerById(String customerId) {	

@@ -66,6 +66,41 @@ public class BookingController {
 		
 	}
 	
+	@ApiOperation(value = "Register the pickup booking into database", notes = "Resource used to register a booking pickup on database")
+	@ApiResponses({@ApiResponse(code = 200, message = "", response = Booking.class)})
+	@PutMapping(value = "/checkOut", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookingRepresentation> registerPickUpBooking(
+			@ApiParam(value = "RequesterId", required = true, type = "String") @RequestHeader(name = "HEADERS_REQUESTER") String requesterId,
+			@ApiParam(value = "Token", required = true, type = "String") @RequestHeader(name = "HEADERS_TOKEN") String token,
+			@ApiParam(value = "BokingDTO", required = true, type = "BookingDTO")@RequestBody BookingDTO dto, HttpServletRequest request) throws Exception{
+		
+		jwtHelper.validateToken(token, requesterId);
+		
+		Optional<Booking> createdBooking = service.registerPickUp(dto);
+		
+		BookingRepresentation representation = new BookingRepresentation(createdBooking.get(), request);
+		
+		return new ResponseEntity<BookingRepresentation>(representation, HttpStatus.OK);		
+	}
+	
+	@ApiOperation(value = "Register the pickup booking into database", notes = "Resource used to register a booking pickup on database")
+	@ApiResponses({@ApiResponse(code = 200, message = "", response = Booking.class)})
+	@PutMapping(value = "/devolution", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookingRepresentation> registerDevolution(
+			@ApiParam(value = "RequesterId", required = true, type = "String") @RequestHeader(name = "HEADERS_REQUESTER") String requesterId,
+			@ApiParam(value = "Token", required = true, type = "String") @RequestHeader(name = "HEADERS_TOKEN") String token,
+			@ApiParam(value = "BokingDTO", required = true, type = "BookingDTO")@RequestBody BookingDTO dto, HttpServletRequest request) throws Exception{
+		
+		jwtHelper.validateToken(token, requesterId);
+		
+		Optional<Booking> createdBooking = service.registerDevolution(dto);
+		
+		BookingRepresentation representation = new BookingRepresentation(createdBooking.get(), request);
+		
+		return new ResponseEntity<BookingRepresentation>(representation, HttpStatus.OK);		
+	}
+	
+	
 	@ApiOperation(value = "Get a booking by ID", notes = "Resource used to get a booking on database by ID")
 	@ApiResponses({@ApiResponse(code = 200, message = "", response = Booking.class)})
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -122,7 +157,7 @@ public class BookingController {
 	@ApiOperation(value = "Delete booking", notes = "Resource used to delete a booking on database by ID")
 	@ApiResponses({ 
 			@ApiResponse(code = 204, message = "", response = ResponseEntity.class),
-			@ApiResponse(code = 404, message = "User not found", response = ObjectNotFoundException.class), 
+			@ApiResponse(code = 422, message = "User not found", response = ObjectNotFoundException.class), 
 			@ApiResponse(code = 422, message = "Deletion is not available for this booking, check if all books have been returned", response = BookingUnprocessableException.class) 
 	})
 	@DeleteMapping(value="/delete/{id}")
@@ -137,4 +172,21 @@ public class BookingController {
 		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+	
+	@GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<BookingRepresentation>> getAllbooking(
+			@ApiParam(value = "RequesterId", required = true, type = "String") @RequestHeader(name = "HEADERS_REQUESTER") String requesterId,
+			@ApiParam(value = "Token", required = true, type = "String") @RequestHeader(name = "HEADERS_TOKEN") String token,
+			HttpServletRequest request) throws Exception{
+		
+		jwtHelper.validateToken(token, requesterId);
+		
+		List<Booking> allBookings = service.getAllBookings();
+		
+		List<BookingRepresentation> representation = Representation.getListRepresentation(allBookings, request, BookingRepresentation.class);
+		
+		return new ResponseEntity<List<BookingRepresentation>>(representation, HttpStatus.OK);
+		
+	}
+	
 }

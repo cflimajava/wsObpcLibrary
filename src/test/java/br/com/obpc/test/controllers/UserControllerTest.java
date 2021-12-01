@@ -137,7 +137,7 @@ public class UserControllerTest {
 		ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class,
 				() -> controller.updatePassword(REQUESTER_FAKE, TOKEN_FAKE, USER_ID_FAKE, PASSWORD_FAKE, NEW_PASSWORD_FAKE));
 		
-		assertTrue(exception.getStatus() == HttpStatus.NOT_FOUND.value());
+		assertTrue(exception.getStatus() == HttpStatus.UNPROCESSABLE_ENTITY.value());
 		assertTrue(exception.getMessage().equals("User not found"));
 	}
 	
@@ -270,7 +270,7 @@ public class UserControllerTest {
 		ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class,
 				() -> controller.getUserById(REQUESTER_FAKE, TOKEN_FAKE, USER_ID_FAKE, request));
 		
-		assertTrue(exception.getStatus() == HttpStatus.NOT_FOUND.value());
+		assertTrue(exception.getStatus() == HttpStatus.UNPROCESSABLE_ENTITY.value());
 		assertTrue(exception.getMessage().equals("User not found"));
 	}
 }

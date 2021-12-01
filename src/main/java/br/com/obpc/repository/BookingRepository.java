@@ -9,5 +9,7 @@ import br.com.obpc.entities.Booking;
 public interface BookingRepository extends MongoRepository<Booking, String>{
 	
 	public List<Booking> findBookingByUserId(String userId);
+	
+	public List<Booking> findBookingByStatusIn(List<String> statusFilter);
 
 }

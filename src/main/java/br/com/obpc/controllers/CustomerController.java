@@ -120,11 +120,11 @@ public class CustomerController {
 		
 		jwtHelper.validateToken(token, requesterId);
 		
-		Customer customer = customerService.getCustomerByUserId(userId);
+		Optional<Customer> customerOpt = customerService.getCustomerByUserId(userId);
 		CustomerRepresentation customerRepresentation = new CustomerRepresentation();
 		
-		if(customer != null) {
-			customerRepresentation = new CustomerRepresentation(customer, request);
+		if(customerOpt.isPresent()) {
+			customerRepresentation = new CustomerRepresentation(customerOpt.get(), request);
 		}
 		
 		return new ResponseEntity<CustomerRepresentation>(customerRepresentation, HttpStatus.OK);

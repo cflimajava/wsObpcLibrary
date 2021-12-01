@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.mongodb.lang.NonNull;
+
 @Document
 public class Customer implements Serializable{
 
@@ -13,28 +15,37 @@ public class Customer implements Serializable{
 	@Id
 	private String id;
 	
+	@NonNull
 	private String name;
 	
+	@NonNull
 	private String dateBirth;
 	
 	private String generalRegister;
 	
+	@NonNull
 	private String cpf;
 	
+	@NonNull
 	private String street;
 	
+	@NonNull
 	private Integer number;
 	
 	private String complement;
 	
+	@NonNull
 	private String neighborhood;
 	
+	@NonNull
 	private String city;
 	
+	@NonNull
 	private String state;
 	
 	private String zipCode;
 	
+	@NonNull
 	private String cellPhoneNumber;
 	
 	private String homePhoneNumber;

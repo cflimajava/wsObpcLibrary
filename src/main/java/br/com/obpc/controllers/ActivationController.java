@@ -31,7 +31,7 @@ public class ActivationController {
 	@ApiOperation(value = "Active user by ID", notes = "Resource used activate user by id using link sent by email")
 	@ApiResponses({ 
 			@ApiResponse(code = 200, message = "", response = UserRepresentations.class),
-			@ApiResponse(code = 404, message = "User not found", response = ObjectNotFoundException.class) 
+			@ApiResponse(code = 422, message = "User not found", response = ObjectNotFoundException.class) 
 	})
 	@GetMapping(value = "user/activation/{id}/{token}")
 	public String emailConfirmation(

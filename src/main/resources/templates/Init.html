@@ -1,0 +1,72 @@
+<html ng-app="obpcApp">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="static/libs/bootstrap-3.3.7-dist/css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="static/css/style.css" type="text/css" />
+	<title>Biblioteca OBPC</title>
+
+</head>
+
+<body>
+	<div class="fixed-header text-center jumbotron" ng-controller="navMenuController">
+		<h1>Biblioteca OBPC</h1>
+		<h4>{{pageName}}</h4>
+		<h6>{{itemSelecionado}}</h6>
+	</div>
+	<div class="col-md-2 mainMenuSide" ng-controller="navMenuController" ng-show="navMenu">
+		<div class="col-md-12">
+			<ul class="nav nav-pills nav-stacked">
+				<li><a href="search">Pesquisar Livro</a></li>
+				<li ng-show="userLogged.role == 'ROLE_ADM'"><a href="users">Gerenciar Usuarios</a></li>
+				<li ng-show="userLogged.role == 'ROLE_ADM'"><a href="booking">Gerenciar Reservas</a></li>
+				<li><a href="/obpc" ng-click="logout()">Sair</a></li>
+			</ul>
+		</div>
+
+	</div>
+
+	<div class="col-md-10 col-md-offset-2 mgBottom10">
+		<div ng-view></div>
+	</div>
+
+	<!-- <footer class="fixed-footer text-center jumbotron">Biblioteca OBPC</footer> -->
+</body>
+
+</html>
+
+<!--LIBS  -->
+<script type="text/javascript" src="static/libs/jquery/jquery.js"></script>
+<script type="text/javascript" src="static/libs/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/libs/angular-1.8.2/angular.js"></script>
+<script type="text/javascript" src="static/libs/angular-1.8.2/angular-route.js"></script>
+<script type="text/javascript" src="static/libs/angular-1.8.2/angular-animate.min.js"></script>
+
+
+<!--MAIN MODELU -->
+<script type="text/javascript" src="static/js/obpcApp.js"></script>
+
+<!-- FACTORIES -->
+<script tyep="text/javascript" src="static/js/factories/userApiFactory.js"></script>
+<script tyep="text/javascript" src="static/js/factories/bookingApiFactory.js"></script>
+<script tyep="text/javascript" src="static/js/factories/customerApiFactory.js"></script>
+
+<!-- ANGULAR´S CONTROLLERS -->
+<!-- INDEX PAGE-->
+<script type="text/javascript" src="static/js/controllers/main/loginController.js"></script>
+<script type="text/javascript" src="static/js/controllers/main/navMenuController.js"></script>
+
+<!-- CUSTOMER MANAGEMENT PAGE-->
+<script type="text/javascript" src="static/js/controllers/customer/customerController.js"></script>
+<script type="text/javascript" src="static/js/controllers/customer/userListController.js"></script>
+
+<!-- SEARCH BOOK PAGE-->
+<script type="text/javascript" src="static/js/controllers/search/searchController.js"></script>
+
+<!-- BOOKING MANAGEMENT PAGE-->
+<script type="text/javascript" src="static/js/controllers/booking/bookingController.js"></script>
+<script type="text/javascript" src="static/js/controllers/booking/bookingDetailController.js"></script>
+
+<script type="text/javascript">
+	angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
+</script>

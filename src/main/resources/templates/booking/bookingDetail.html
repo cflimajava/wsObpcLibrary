@@ -1,0 +1,154 @@
+<div class="sample-show-hide message" ng-class="tipoMessage" ng-show="showMessage">
+	<strong>Ops!</strong> {{errorMessage || successMessage}}
+</div>
+
+<div ng-show="showPopupSizeLoan" class="popUpContainer">
+	<div class="col-md-4 col-md-offset-4 popUp">
+		<div class="panel panel-default">
+			<div class="panel-heading">Quantos dias de emprestimo? <button type="button" class="close" ng-click="closePopup()"><span aria-hidden="true">&times;</div>
+			<div class="panel-body">
+				<div class="form-group col-md-12">
+					<input class="form-control" type="number" ng-model="booking.sizeLoan">
+				</div>
+				<div class="col-md-12">
+					<button type="button" class="btn btn-primary btn-sm pull-right" ng-disabled="booking.pickupDate" ng-click="registarRetirada()">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-show="showNotesPopup" class="popUpContainer">
+	<div class="col-md-4 col-md-offset-4 popUp">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<strong>Notas</strong>
+			</div>
+
+			<div class="panel-body">
+					<textarea class="form-control" rows="5" ng-model="booking.notes" placeholder="Adiconar notas sobre reserva"></textarea>
+					<div class="pull-right">
+						<button class="btn btn-primary btn-sm mgTop10" ng-click="addNotas()">Salvar</button>
+						<button class="btn btn-primary btn-sm mgTop10" ng-click="closePopup()">Cancelar</button>				
+					</div>				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col-md-12 mgBottom10">
+	<div class="pull-right">
+		
+		<button type="button" class="btn btn-warning" ng-disabled="booking.pickupDate" ng-click="openPopupSizeLoan()" title="Registrar Saída">
+			<span class="glyphicon glyphicon-log-out"></span> Registrar Saída
+		</button>
+		
+		<button type="button" class="btn btn-primary" ng-disabled="booking.pickupDate == null || booking.devolutionDate"  ng-click="registrarDevoulucao()" title="Registrar Devolução">
+			<span class="glyphicon glyphicon-log-in"></span> Registar Devolução
+		</button>
+		
+		<button type="button" class="btn btn-info" title="Registrar Nota sobre Reserva" ng-click="openPopupAddNotas()">
+			<span class="glyphicon glyphicon-pencil"></span> Add Notas
+		</button>
+	</div>
+	<a href="booking" class="btn btn-primary pull-left" title="Voltar">
+		<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+	</a>
+</div>
+
+<div class="col-md-12">
+	<div class="panel panel-default">
+		<div class="panel-heading text-center">
+			<strong>Detalhes da reserva</strong>
+		</div>
+
+		<div class="panel-body">
+			<div class="form-group">
+				<div class="col-md-12">
+					<label>Email</label>
+					<input class="form-control" type="text" ng-value="booking.userName" disabled>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-md-6 mgTop10">
+					<label>ID</label>
+					<input class="form-control" type="text" ng-value="booking.id" disabled>
+				</div>
+				<div class="col-md-6 mgTop10">
+					<label>Status</label>
+					<input class="form-control" type="text" ng-value="booking.status" disabled>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-md-6 mgTop10">
+					<label>Data de criação</label>
+					<input class="form-control" type="text" ng-value="booking.dateCreation | date :'dd/MM/yyyy'"
+						disabled>
+				</div>
+				<div class="col-md-6 mgTop10">
+					<label>Data de retirada</label>
+					<input class="form-control" type="text" ng-value="booking.pickupDate | date :'dd/MM/yyyy'" disabled>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-md-6 mgTop10">
+					<label>Data de devolução prevista</label>
+					<input class="form-control" type="text"
+						ng-value="booking.previewDevolutionDate | date :'dd/MM/yyyy'" disabled>
+				</div>
+
+				<div class="col-md-6 mgTop10">
+					<label>Data de devoulção realizada</label>
+					<input class="form-control" type="text" ng-value="booking.devolutionDate | date :'dd/MM/yyyy'"
+						disabled>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading text-center">
+			<strong>Livros</strong>
+		</div>
+
+		<div class="panel-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="col-md-4"><a href="" ng-click="ordernarPor('title')">Título</a></th>
+						<th class="col-md-4"><a href="" ng-click="ordernarPor('author')">Autor</a></th>
+						<th class="col-md-2"><a href="" ng-click="ordernarPor('publisher')">Editora</a></th>
+						<th class="col-md-1"><a href="" ng-click="ordernarPor('year')">Ano</a></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="book in booking.books | orderBy : criterioDeOrdenacao : direcaoDaOrdenacao">
+						<td>{{book.title}}</td>
+						<td>{{book.author}}</td>
+						<td>{{book.publisher}}</td>
+						<td>{{book.year}}</td>
+						<td>
+							<button type="button" class="btn btn-danger" ng-click="removerLivro(book)"
+								ng-disabled="booking.books.length < 2" ng-hide="booking.pickupDate">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading text-center">
+			<strong>Notas</strong>
+		</div>
+
+		<div class="panel-body">
+			<h4>{{booking.notes}}</h4>
+		</div>
+	</div>
+</div>

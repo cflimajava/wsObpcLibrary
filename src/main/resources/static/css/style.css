@@ -1,0 +1,122 @@
+  body {
+    padding-top: 10%;
+    padding-bottom: 3%;
+  }
+
+  .fixed-header,
+  .fixed-footer {
+    width: 100%;
+    position: fixed;
+    padding: 10px 0;
+    z-index: 1000;
+  }
+
+  .fixed-header {
+    margin-bottom: 15px;
+    top: 0;
+    height: 170px;
+  }
+
+  .fixed-footer {
+    margin-top: 15px;
+    margin-bottom: 0;
+    bottom: 0;
+  }
+
+  .container {
+
+    margin: 0 auto;
+  }
+
+  .loginTop {
+    margin-top: 20%;
+  }
+
+  .filterContainer {
+    border-left: 1px solid rgb(238, 238, 238);
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding: 10 5 0 5;
+    margin-bottom: 10px;
+    height: 55px;
+  }
+
+  .boxStatusFilter {
+    margin-top: 10px;
+    margin-left: 5px;
+  }
+
+  .noMarginTop {
+    margin-top: 0;
+  }
+
+  .mainMenuSide{
+    padding: 20px 0;
+    background-color: #eee;
+    height: 100%;
+    top: 0px;
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .mgTop10 {
+    margin-top: 10px;
+  }
+
+  .mgBottom10 {
+    margin-bottom: 10px;
+  }
+
+  .noMarginSides {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .noBorder {
+    border: 0px;
+  }
+
+  .sample-show-hide {
+    transition: all linear 1.0s;
+  }
+
+  .sample-show-hide.ng-hide {
+    opacity: 0;
+  }
+
+  .required {
+    color: red;
+  }
+
+  .noSidePadding{
+    padding: 10px 0;
+  }
+
+  .popUpContainer {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 1000;
+    background-color: rgba(120, 126, 133, 0.4);
+  }
+
+  .popUp {
+    z-index: 1001;
+    top: 33%;
+  }
+
+  .message {
+    z-index: 1000;
+    top: 0;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .statusAtrasado{
+  	color: red;
+  	font-weight: bold;
+  }

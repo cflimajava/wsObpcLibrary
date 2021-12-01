@@ -25,7 +25,7 @@ public class BookService {
 	
 	public Optional<Book> updateBook(BookDTO dto) throws ObjectNotFoundException{	
 		if(dto.getId() != null) {
-			Optional.ofNullable(getBookById(dto.getId()).orElseThrow(() -> new ObjectNotFoundException("Book not found")));		
+			getBookById(dto.getId()).orElseThrow(() -> new ObjectNotFoundException("Book not found"));		
 			Book book = new Book(dto);
 			return Optional.of(repository.save(book));
 		}
@@ -34,7 +34,7 @@ public class BookService {
 	}
 	
 	public void deleteBook(String id) throws ObjectNotFoundException {
-		Optional.ofNullable(getBookById(id).orElseThrow(() -> new ObjectNotFoundException("Book not found")));	
+		getBookById(id).orElseThrow(() -> new ObjectNotFoundException("Book not found"));	
 		repository.deleteById(id);
 	}
 	

@@ -35,13 +35,18 @@ public class Booking implements Serializable{
 	private String userId;
 	
 	@NonNull
+	private String userName;
+	
+	@NonNull
 	private List<Book> books;
+	
+	private String notes;
 
 	public Booking() {
 	}
 
 	public Booking(String id, Date dateCreation, Date pickupDate, Date previewDevolutionDate, Date devolutionDate, String status,
-			String userId, List<Book> books) {
+			String userId, String userName, List<Book> books, String notes) {
 		this.id = id;
 		this.dateCreation = dateCreation;
 		this.pickupDate = pickupDate;
@@ -49,18 +54,22 @@ public class Booking implements Serializable{
 		this.devolutionDate = devolutionDate;
 		this.status = status;
 		this.userId = userId;
+		this.userName = userName;
 		this.books = books;
+		this.notes = notes;
 	}
 
 	public Booking(BookingDTO dto, List<Book> books) {
 		this.id = dto.getId() != null ? dto.getId() : null;
-		this.dateCreation = dto.getDateCreation();
+		this.dateCreation =dto.getDateCreation();
 		this.pickupDate = dto.getPickupDate();
 		this.previewDevolutionDate = dto.getPreviewDevolutionDate();
 		this.devolutionDate = dto.getDevolutionDate();
 		this.status = dto.getStatus();
 		this.userId = dto.getUserId();
+		this.userName = dto.getUserName();
 		this.books = books;
+		this.notes = dto.getNotes();
 	}
 	
 	public Booking(BookingDTO dto) {
@@ -70,6 +79,8 @@ public class Booking implements Serializable{
 		this.previewDevolutionDate = dto.getPreviewDevolutionDate();
 		this.devolutionDate = dto.getDevolutionDate();
 		this.userId = dto.getUserId();
+		this.userName = dto.getUserName();
+		this.notes = dto.getNotes();
 	}
 
 
@@ -136,6 +147,22 @@ public class Booking implements Serializable{
 
 	public void setBooks(List<Book> books) {
 		this.books = books;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 }
